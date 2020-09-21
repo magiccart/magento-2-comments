@@ -1,0 +1,209 @@
+<?php
+/**
+ * Magiccart 
+ * @category    Magiccart 
+ * @copyright   Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+ * @license     http://www.magiccart.net/license-agreement.html
+ * @Author: DOng NGuyen<nguyen@dvn.com>
+ * @@Create Date: 2018-07-17 11:07:18
+ * @@Modify Date: 2018-07-19 19:49:39
+ * @@Function:
+ */
+?>
+<?php
+    $comments = $block->getCommentsCollection();
+    $numberOfCommentsToDisplay = $block->getNumberOfComments();
+    $session = $block->getCustomerSession();
+    $canPost = $block->canPost();
+?>
+<div id="post-comments">
+    <div class="c-count"><?php echo __('%1 Comment(s)', $comments->getSize()) ?></div>
+    <!-- reply form -->
+    <div class="c-reply cf">
+        <?php if ($block->getEmail() && $authorImage = $block->getGravatar($block->getEmail())) { ?>
+        <div class="c-img">
+            <img src="<?php echo $authorImage ?>" alt="<?php echo $block->escapeHtml($block->getCustomerName()) ?>">
+        </div>
+        <?php } ?>
+        <div class="c-replyform <?php if ($canPost)  echo 'no-active' ?>">
+            <form action="<?php echo $block->getFormUrl() ?>" method="post" data-mage-init='{"validation":{}}'>
+                <?php echo $block->getBlockHtml('formkey') ?>
+                <input type="hidden" name="product_id" value="<?php echo $block->getProduct()->getId() ?>" />
+                <textarea name="content" placeholder="<?php echo $canPost ? __('Add a comment...') : __('Sign in to add a comment...') ?>" <?php if (!$canPost) {?>disabled="disabled"<?php } ?> data-validate="{required:true}"></textarea>
+                <div class="c-btn-hld">
+
+                    <?php if ($canPost && !$session->getCustomerGroupId()) { ?>
+                    <div class="lr-hld">
+                        <div class="left-hld">
+                            <input type="text" name="nickname" value="" placeholder="<?php echo __('Full Name') ?>" class="input-text required-entry" data-validate="{required:true}" autocomplete="off" aria-required="true">
+                        </div>
+                        <div class="right-hld">
+                            <input type="email" name="email" autocomplete="email"  value="" placeholder="<?php echo __('Email') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}" aria-required="true">
+                        </div>
+                    </div>
+                    <?php } ?>
+
+                    <?php if ($canPost) { ?>
+                        <button type="submit"><?php echo __('Submit') ?></button>
+                    <?php } else { ?>
+                        <button type="button" onclick="window.location='<?php echo $block->getCustomerUrl()->getLoginUrl() ?>';"><?php echo __('Sign In') ?></button>
+                    <?php } ?>
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+<?php
+    $commentsCount = count($comments);
+    if ($commentsCount) {
+?>
+    <!-- comments list -->
+    <div class="c-comments" >
+        <?php $i = 0 ?>
+        <?php foreach ($comments as $comment) { ?>
+            <?php
+                $i++;
+                $comment->setIsHidden($i > $numberOfCommentsToDisplay);
+            ?>
+            <?php echo $block->getCommentHtml($comment) ?>
+        <?php } ?>
+        <?php if ($commentsCount > $numberOfCommentsToDisplay) { ?>
+            <a href="#" class="c-allcomments more-comments-action" data-comment="0"><?php echo __('Load more comments') ?></a>
+        <?php } ?>
+    </div>
+
+    <!-- reply comment form -->
+    <div id="c-replyform-comment" class="c-replyform c-replyform-comment" style="display:none">
+        <form action="<?php echo $block->getFormUrl() ?>" method="post" data-mage-init='{"validation":{}}'>
+            <?php echo $block->getBlockHtml('formkey') ?>
+            <input type="hidden" name="product_id" value="<?php echo $block->getProduct()->getId() ?>" />
+            <input type="hidden" name="parent_id" value="" />
+            <textarea class="refresh-value" name="content" placeholder="<?php echo $canPost ? __('Add a reply...') : __('Sign in to add a comment...') ?>" <?php if (!$canPost) {?>disabled="disabled"<?php } ?> data-validate="{required:true}"></textarea>
+            <div class="c-btn-hld">
+
+                <?php if ($canPost && !$session->getCustomerGroupId()) { ?>
+                <div class="lr-hld">
+                    <div class="left-hld">
+                        <input type="text" name="nickname" value="" placeholder="<?php echo __('Full Name') ?>" class="input-text required-entry refresh-value" data-validate="{required:true}" autocomplete="off" aria-required="true">
+                    </div>
+                    <div class="right-hld">
+                        <input type="email" name="email" autocomplete="email"  value="" placeholder="<?php echo __('Email') ?>" class="input-text required-entry refresh-value" data-validate="{required:true, 'validate-email':true}" aria-required="true">
+                    </div>
+                </div>
+                <?php } ?>
+                <button type="button" class="cancel reply-cancel-action" ><?php echo __('Cancel') ?></button>
+                <?php if ($canPost) { ?>
+                    <button type="submit"><?php echo __('Submit') ?></button>
+                <?php } else { ?>
+                    <button type="button" onclick="window.location='<?php echo $block->getCustomerUrl()->getLoginUrl() ?>';"><?php echo __('Sign In') ?></button>
+                <?php } ?>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+    </div>
+<?php } ?>
+</div>
+
+<script type="text/x-magento-init">
+{
+    "#post-comments": {
+        "Magento_Ui/js/core/app": <?php /* @escapeNotVerified */ echo $block->getJsLayout() ?>
+    }
+}
+</script>
+
+<script type="text/javascript">
+    require(
+        [
+        'jquery',
+        'mage/validation'],
+        function ($, validation) {
+            'use strict';
+
+            var msgLifetime = 4000;
+            var $hd = $('#post-comments');
+
+            var getMessageHtml = function (msg, type) {
+                var h = '<div class="message-' + type + ' ' + type + ' message">'
+                    + '<div>' + msg + '</div>'
+                +'</div>';
+                return $(h);
+            }
+
+            var processError = function ($form, msg) {
+                $form.find('[type=submit]').removeAttr('disabled');
+                var $h = getMessageHtml(msg, 'error');
+                $h.insertBefore($form);
+                setTimeout(function () {
+                    $h.remove();
+                }, msgLifetime);
+            }
+
+            var processSuccess = function ($form, msg) {
+                $form.find('[type=submit]').removeAttr('disabled');
+                var $h = getMessageHtml(msg, 'success');
+                $h.insertBefore($form);
+                $form.hide();
+                setTimeout(function () {
+                    $h.remove();
+                }, msgLifetime);
+            }
+
+            $hd.find('form').submit(function () {
+                var $form = $(this);
+                if ($form.validation() && $form.validation('isValid')) {
+                    $form.find('[type=submit]').attr('disabled', 'disabled');
+                    var data = $form.serialize();
+                    $.ajax({
+                        'method': 'post',
+                        'url': $form.attr('action'),
+                        'dataType': 'json',
+                        'data': data,
+                        'success': function (res) {
+                            if (res.success) {
+                                if(!res.pending){
+                                    console.log(data.content);
+                                }
+                                processSuccess($form, res.message);
+                            } else {
+                                processError($form, res.message);
+                            }
+                        },
+                        'error': function () {
+                            processError($form, '<?php echo __('Unexpected error. Please try again later or contact us.') ?>' )
+                        }
+                    })
+                }
+                return false;
+            });
+
+            $hd.find('.more-comments-action').click(function () {
+                var id = $(this).data('comment');
+                $hd.find('.c-comment-parent-'+id).fadeIn();
+                $(this).hide();
+                return false;
+            });
+
+            $hd.find('form textarea').click(function () {
+                $(this).parents('.no-active').removeClass('no-active');
+            });
+
+            var $rf = $('#c-replyform-comment');
+            $hd.find('.reply-action').click(function () {
+                var id = $(this).data('comment');
+                $rf.hide();
+                $rf.appendTo('.c-post-'+id);
+                $rf.find('.refresh-value').val('').html('');
+                $rf.find('[name=parent_id]').val(id);
+                $rf.find('form').show();
+                $rf.fadeIn();
+                return false;
+            });
+
+            $hd.find('.reply-cancel-action').click(function () {
+                $rf.hide();
+            });
+
+        }
+    );
+</script>

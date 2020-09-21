@@ -1,0 +1,70 @@
+<?php
+/**
+ * Magiccart 
+ * @category 	Magiccart 
+ * @copyright 	Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+ * @license 	http://www.magiccart.net/license-agreement.html
+ * @Author: DOng NGuyen<nguyen@dvn.com>
+ * @@Create Date: 2018-07-17 11:56:55
+ * @@Modify Date: 2018-07-22 19:00:24
+ * @@Function:
+ */
+?>
+<?php
+/**
+ * Product comments template
+ *
+ * @var $block \Magiccart\Comments\Block\Product\View\Comments\Inline\Comment
+ */
+?>
+<?php
+    $comment = $block->getComment();
+    $numberOfCommentsToDisplay = $block->getNumberOfReplies();
+    $parentId = (int)$comment->getParentId();
+    // $_product  = $this->getProduct();
+?>
+<div class="c-comment c-comment-parent-<?php echo $parentId ?>" <?php if ($comment->getIsHidden()) echo 'style="display:none"' ?>>
+    <div class="c-post c-post-<?php echo $comment->getId() ?>" id="comment-<?php echo $comment->getId() ?>">
+        <div class="author-info">
+            <?php if ($authorImage = $block->getGravatar($comment->getEmail())) { ?>
+                <div class="c-img">
+                    <img class="avatar" src="<?php echo $authorImage ?>" alt="<?php echo $block->escapeHtml($comment->getNickname()) ?>">
+                </div>
+            <?php } ?>
+            <div class="p-name">
+                <span class="nickname"><?php echo $block->escapeHtml($comment->getAuthor()->getNickname()) ?></span>
+            </div>
+            <div class="p-date">
+                <a href="#comment-<?php echo $comment->getId() ?>" ><span class="publish-date"><?php echo $block->escapeHtml($comment->getPublishDate(false)) ?></span></a>
+            </div>
+                               
+        </div>
+        <div id="comment-<?php echo $comment->getId() ?>" class="p-content"><?php echo $block->escapeHtml($comment->getContent()) ?></div>
+        <?php
+            $replies = $block->getRepliesCollection();
+            $commentsCount = count($replies);
+            if ($commentsCount) {
+            $hide = $commentsCount - $numberOfCommentsToDisplay;
+        ?>
+            <div class="p-replies">
+                <?php if ($hide > 0) { ?>
+                <div class="c-more more-comments-action" data-comment="<?php echo $comment->getId() ?>">
+                    <a href="#" ><?php echo sprintf(__('Show %s other replies in this thread'), $hide) ?><i></i></a>
+                </div>
+                <?php } ?>
+                <?php
+                    $i = 0;
+                    foreach ($replies as $reply) {
+                        $reply->setIsHidden($i < $hide); $i++;
+                        echo $block->setComment($reply)->toHtml();
+                    }
+                ?>
+            </div>
+        <?php } ?>
+        <?php if(!$parentId) : ?>
+            <div class="p-actions">
+                <a href="#" class="reply-action" data-comment="<?php echo $comment->isReply() ? $comment->getParentId() : $comment->getId() ?>" title="<?php echo __('Reply') ?>"><?php echo __('Reply') ?></a>
+            </div>
+        <?php endif ?>
+    </div>
+</div>

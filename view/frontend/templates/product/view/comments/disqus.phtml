@@ -1,0 +1,32 @@
+<?php
+/**
+ * Magiccart 
+ * @category    Magiccart 
+ * @copyright   Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+ * @license     http://www.magiccart.net/license-agreement.html
+ * @Author: DOng NGuyen<nguyen@dvn.com>
+ * @@Create Date: 2018-07-10 21:49:30
+ * @@Modify Date: 2018-07-10 21:57:37
+ * @@Function:
+ */
+?>
+<?php
+/**
+ *
+ * @var $block \Magiccart\Comments\Block\Product\View\Comments
+ */
+?>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = "<?php echo $block->getProduct()->getProductUrl() ?>";
+        this.page.identifier = "<?php echo $block->getProduct()->getUrl() ?>"
+    };
+
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '<?php echo '/' . '/' . $block->getDisqusShortname() ?>.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>

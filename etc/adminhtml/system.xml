@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+
+<!-- /**
+ * Magiccart 
+ * @category    Magiccart 
+ * @copyright   Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+ * @license     http://www.magiccart.net/license-agreement.html
+ * @Author: DOng NGuyen<nguyen@dvn.com>
+ * @@Create Date: 2018-02-23 18:59:34
+ * @@Modify Date: 2019-04-21 20:49:46
+ * @@Function:
+ */ -->
+ 
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="Magiccart" translate="label" sortOrder="100">
+            <label>Magiccart</label>
+        </tab>
+        <section id="comments" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Comments</label>
+            <tab>Magiccart</tab>
+            <resource>Magiccart_Comments::config_comments</resource>
+            <group id="general" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <comment>Enabled frontend</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="type" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Comments</label>
+                    <source_model>Magiccart\Comments\Model\System\Config\Comment\Type</source_model>
+                </field>
+                <field id="sender" translate="label comment" type="text" sortOrder="20"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Send From Email</label>
+                    <comment>Send From Email</comment>
+                    <validate>required-entry validate-email</validate>
+                    <depends>
+                        <field id="type">inline</field>
+                    </depends>
+                </field>
+                <field id="receiver" translate="label comment" type="text" sortOrder="25"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Send To Email</label>
+                    <comment>When have new comment send to email</comment>
+                    <validate>required-entry validate-email</validate>
+                    <depends>
+                        <field id="type">inline</field>
+                    </depends>
+                </field>
+               <field id="email_template" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Email Template</label>
+                    <comment>Email Template</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="type">inline</field>
+                    </depends>
+               </field>
+                <field id="moderator" translate="label comment tooltip" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Moderator</label>
+                    <frontend_model>Magiccart\Comments\Block\System\Config\Form\Field\Email</frontend_model>
+                    <backend_model>Magiccart\Comments\Model\Moderator\Backend\Email</backend_model>
+                    <comment></comment>
+                    <tooltip>Email Moderator, author, sale, support ...etc.</tooltip>
+                    <depends>
+                        <field id="type">inline</field>
+                    </depends>
+                </field>
+                <field id="number_of_comments" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Number of Comments</label>
+                    <depends>
+                        <field id="type" separator="|">facebook|inline</field>
+                    </depends>
+                </field>
+
+                <field id="number_of_replies" translate="label comment" type="text" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Number of Replies</label>
+                    <depends>
+                        <field id="type">inline</field>
+                    </depends>
+                </field>
+                <field id="fb_app_id" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Facebook Application ID</label>
+                    <depends>
+                        <field id="type">facebook</field>
+                    </depends>
+                    <comment><![CDATA[
+                        <a href="https://help.yahoo.com/kb/SLN18861.html" target="_blank">
+                            How do I get a Facebook Application ID?
+                        </a>
+                    ]]></comment>
+                </field>
+
+                <field id="disqus_forum_shortname" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Your Disqus Forum Shortname</label>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="type">disqus</field>
+                    </depends>
+                    <comment><![CDATA[
+                        <a href="https://help.disqus.com/customer/portal/articles/466208" target="_blank">
+                            What's a shortname?
+                        </a>
+                    ]]></comment>
+                </field>
+                <field id="guest_comments" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allow Guest Comments</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="type">inline</field>
+                    </depends>
+                    <comment></comment>
+                </field>
+                <field id="global_comment" translate="label comment" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Comment is global Status</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="type">inline</field>
+                    </depends>
+                    <comment></comment>
+                </field>
+                <field id="default_status" translate="label comment" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>New Comment Status</label>
+                    <source_model>Magiccart\Comments\Model\System\Config\Comment\Status</source_model>
+                    <depends>
+                        <field id="type">inline</field>
+                    </depends>
+                    <comment></comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

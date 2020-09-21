@@ -1,0 +1,30 @@
+<?php
+/**
+ * Magiccart 
+ * @category 	Magiccart 
+ * @copyright 	Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+ * @license 	http://www.magiccart.net/license-agreement.html
+ * @Author: DOng NGuyen<nguyen@dvn.com>
+ * @@Create Date: 2018-07-10 21:49:30
+ * @@Modify Date: 2018-07-10 21:57:53
+ * @@Function:
+ */
+?>
+<?php
+/**
+ *
+ * @var $block \Magiccart\Comments\Block\Product\View\Comments
+ */
+?>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "<?php echo '/' . '/' ?>connect.facebook.net/<?php echo $block->getLocaleCode() ?>/sdk.js#xfbml=1&version=v2.5&appId=<?php echo $block->getFacebookAppId() ?>";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div class="post-comments clear">
+    <div class="fb-comments" data-href="<?php echo $block->getProduct()->getProductUrl() ?>" data-width="100%" data-numposts="<?php echo $block->getNumberOfComments() ?>"></div>
+</div>

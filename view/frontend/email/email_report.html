@@ -1,0 +1,27 @@
+
+<!--
+* Magiccart 
+* @category    Magiccart 
+* @copyright   Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+* @license     http://www.magiccart.net/license-agreement.html
+* @Author: DOng NGuyen<nguyen@dvn.com>
+* @@Create Date: 2018-05-16 16:15:05
+* @@Modify Date: 2018-07-22 18:10:58
+* @@Function:
+*/
+-->
+<!--@subject {{trans "[%store_name] New comment on ( %productName ) from %nickname" store_name=$store.getFrontendName() productName=$productName nickname=$nickname }}@-->
+<!--@vars {
+"var data.email":"Sender Email",
+"var data.name":"Sender Name"
+"var data.content":"Comment Content"
+} @-->
+{{template config_path="design/email/header_template"}}
+ 
+   <div class="comment-info">
+   		<p>{{var content}}</p>
+		<p>{{trans "This email was sent from %nickname <%email>" nickname=$nickname email=$email }}</p>
+       	<p>{{trans "You can reply to the comment here"}}: <a href="{{var productUrl}}" >{{var productUrl}}</a></p>
+   </div>
+ 
+{{template config_path="design/email/footer_template"}}

@@ -1,0 +1,27 @@
+<?php
+/**
+ * Magiccart 
+ * @category 	Magiccart 
+ * @copyright 	Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+ * @license 	http://www.magiccart.net/license-agreement.html
+ * @Author: DOng NGuyen<nguyen@dvn.com>
+ * @@Create Date: 2018-07-10 21:49:30
+ * @@Modify Date: 2018-07-10 21:55:44
+ * @@Function:
+ */
+?>
+<?php
+/**
+ *
+ * @var $block \Magiccart\Comments\Block\Product\View\Comments
+ */
+?>
+<script src="https://apis.google.com/js/plusone.js"></script>
+<div id="magiccart_gcomments" data-width="100%" height="200px"></div>
+<script>
+    gapi.comments.render('magiccart_gcomments', {
+        href: '<?php echo $block->getProduct()->getProductUrl() ?>',
+        first_party_property: 'BLOGGER',
+        view_type: 'FILTERED_POSTMOD'
+    });
+</script>

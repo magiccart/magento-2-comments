@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Magiccart 
+ * @category    Magiccart 
+ * @copyright   Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+ * @license     http://www.magiccart.net/license-agreement.html
+ * @Author: DOng NGuyen<nguyen@dvn.com>
+ * @@Create Date: 2018-02-23 18:59:34
+ * @@Modify Date: 2018-07-13 17:10:53
+ * @@Function:
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+    	<update id="magiccart" title="Magiccart" module="Magiccart_Comments" sortOrder="10" resource="Magiccart_Comments::magiccart"/>
+
+	        <add id="Magiccart_Comments::comments" title="Comments" module="Magiccart_Comments" sortOrder="10" parent="magiccart" resource="Magiccart_Comments::comments"/>
+
+				<add id="Magiccart_Comments::comments_index" title="Comment" module="Magiccart_Comments" sortOrder="10" parent="Magiccart_Comments::comments" action="comments/index" resource="Magiccart_Comments::comments_index"/>
+    </menu>
+</config>

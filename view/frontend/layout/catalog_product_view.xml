@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magiccart 
+ * @category 	Magiccart 
+ * @copyright 	Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+ * @license 	http://www.magiccart.net/license-agreement.html
+ * @Author: DOng NGuyen<nguyen@dvn.com>
+ * @@Create Date: 2018-07-10 18:52:44
+ * @@Modify Date: 2019-04-21 16:29:11
+ * @@Function:
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Magiccart_Comments::css/comments.css" />
+    </head>
+	<body>
+		<referenceBlock name="product.info.details">
+			<block class="Magiccart\Comments\Block\Product\View\Comments" name="comments" group="detailed_info" template="Magiccart_Comments::product/view/comments.phtml" >
+<!-- 				<arguments>
+					<argument translate="true" name="title" xsi:type="string">Comments</argument>
+				</arguments> -->
+	            <container name="product.comments" label="Comments Container" htmlTag="div" htmlClass="block comments" >
+	                <block class="Magiccart\Comments\Block\Product\View\Comments\Inline" name="product.comments.inline" template="product/view/comments/inline.phtml" />
+	                <block class="Magiccart\Comments\Block\Product\View\Comments\Facebook" name="product.comments.facebook" template="product/view/comments/facebook.phtml" />
+	                <block class="Magiccart\Comments\Block\Product\View\Comments\Disqus" name="product.comments.disqus" template="product/view/comments/disqus.phtml" />
+	                <block class="Magiccart\Comments\Block\Product\View\Comments\Google" name="product.comments.google" template="product/view/comments/google.phtml" />
+	            </container>
+			</block>
+
+		</referenceBlock>
+	</body>
+</page>

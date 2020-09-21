@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Magiccart 
+ * @category    Magiccart 
+ * @copyright   Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+ * @license     http://www.magiccart.net/license-agreement.html
+ * @Author: DOng NGuyen<nguyen@dvn.com>
+ * @@Create Date: 2018-07-10 22:01:57
+ * @@Modify Date: 2018-07-19 20:50:46
+ * @@Function:
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+	    <comments>
+            <general>
+                <enabled>1</enabled>
+                <title>Comments</title>
+                <type>inline</type>
+                <sender>customer@example.com</sender>
+                <receiver>support@example.com</receiver>
+                <email_template>comments_general_email_template</email_template>
+                <number_of_comments>10</number_of_comments>
+                <number_of_replies>5</number_of_replies>
+                <guest_comments>1</guest_comments>
+                <global_comment>1</global_comment>
+                <default_status>1</default_status>
+            </general>
+	    </comments>
+	</default>
+</config>
